@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Shield 360 - Version 2.0</title>
+    <!-- Google Fonts: Archivo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Variables & Brand Colors */
+        :root {
+            --cyan: #00E5FF;
+            --blue: #0086FF;
+            --purple: #8200FF;
+            --pink: #FF003C;
+            --dark-blue: #000829;
+            --font-family: 'Archivo', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        /* Main White Container occupying full screen */
+        .main-container {
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 1rem;
+        }
+
+        /* Hero Container: 95% width and height, centered, rounded corners with shadow */
+        .hero-container {
+            position: relative;
+            width: 99%;
+            height: 99%;
+            background-color: #000829;
+            /* Fallback background image if YouTube fails */
+            background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* YouTube Background Video Container filling the hero container */
+        .video-bg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .video-bg-container iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120vw;
+            height: 120vh;
+            min-width: 177.77vh; /* 16:9 Aspect Ratio cover */
+            min-height: 56.25vw;
+            transform: translate(-50%, -50%) scale(1.35);
+            pointer-events: none;
+            opacity: 0; /* Hidden initially until successfully loaded */
+            transition: opacity 1s ease-in-out;
+        }
+
+        .video-bg-container iframe.loaded {
+            opacity: 1;
+        }
+
+        /* Subtle dark gradient overlay to make foreground content pop */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 8, 41, 0.65) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Inner Content Div inside Hero Container */
+        .hero-inner-content {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            width: 100%;
+            height: 100%;
+            padding: 2rem 1rem;
+        }
+
+        /* Centered PNG Image */
+        .hero-image {
+            max-width: 75%;
+            max-height: 55vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.5));
+        }
+
+        /* Scroll Down Button with Flickering Animation */
+        .scroll-down-btn {
+            position: absolute;
+            bottom: 2rem;
+            background: rgba(0, 134, 255, 0.2);
+            border: 1px solid var(--cyan);
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-family: var(--font-family);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(8px);
+            animation: flickerAnim 1.8s infinite ease-in-out;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .scroll-down-btn:hover {
+            background: rgba(0, 229, 255, 0.4);
+        }
+
+        /* Flickering keyframes */
+        @keyframes flickerAnim {
+            0%, 100% {
+                opacity: 1;
+                filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.6));
+            }
+            50% {
+                opacity: 0.4;
+                filter: drop-shadow(0 0 2px rgba(0, 229, 255, 0.2));
+            }
+        }
+
+        /* Responsive Breakpoints for Tablet & Mobile */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0.5rem;
+            }
+            .hero-container {
+                width: 97%;
+                height: 97%;
+                border-radius: 16px;
+            }
+            .hero-image {
+                max-width: 88%;
+                max-height: 45vh;
+            }
+            .scroll-down-btn {
+                padding: 0.55rem 1.1rem;
+                font-size: 0.75rem;
+                bottom: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main White Container -->
+    <div class="main-container">
+        
+        <!-- Hero Container (95% width and height, centered) -->
+        <div class="hero-container">
+            
+            <!-- YouTube Background Video Container -->
+            <div class="video-bg-container">
+                <div class="video-overlay"></div>
+                <iframe id="bgVideo"
+                        src="https://www.youtube.com/embed/FW_PPcr1sPE?autoplay=1&mute=1&loop=1&playlist=FW_PPcr1sPE&controls=0&showinfo=0&modestbranding=1&cc_load_policy=0&iv_load_policy=3&enablejsapi=1" 
+                        title="Background Video" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+
+            <!-- Inner Content Div with PNG Image and Flickering Scroll Button -->
+            <div class="hero-inner-content">
+                <!-- PNG Image Asset -->
+                <img src="./CS2 Main Logo w Dinamani.png" alt="Cyber Shield Asset" class="hero-image" id="heroPng">
+                
+                <!-- Flickering Scroll Down Button -->
+                <button class="scroll-down-btn" onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'});">
+                    <span>স্ক্রোল செய்யுங்கள் (Scroll Down)</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Fallback Logic: Detect if YouTube video loads successfully
+        const iframe = document.getElementById('bgVideo');
+        let isVideoLoaded = false;
+
+        iframe.addEventListener('load', () => {
+            setTimeout(() => {
+                isVideoLoaded = true;
+                iframe.classList.add('loaded');
+            }, 600);
+        });
+
+        // If the video fails to load or gets blocked within 4 seconds, fallback background image remains active
+        setTimeout(() => {
+            if (!isVideoLoaded) {
+                console.warn('YouTube video playback blocked or failed to load. Static background image fallback remains active.');
+            }
+        }, 4000);
+    </script>
+</body>
+</html>
